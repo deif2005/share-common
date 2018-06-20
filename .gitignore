@@ -1,2 +1,6 @@
 *.class
 .idea/workspace.xml
+.build
+.gradle
+.out
+.build
