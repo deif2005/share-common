@@ -1,0 +1,67 @@
+group 'com.usi.share'
+version '1.0'
+
+apply plugin: 'java'
+//apply plugin: 'maven'
+apply plugin: 'maven-publish'
+
+//sourceCompatibility = 1.8
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId 'com.usi.share'
+            artifactId 'share-common'
+            version '1.3'
+            //若是war包，就写components.web,若是jar包，就写components.java
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+
+            if (project.version.endsWith('-SNAPSHOT')) {
+                url = "http://192.168.1.200:8081/repository/maven-snapshots/"
+            } else {
+                url = "http://192.168.1.200:8081/repository/maven-releases/"
+            }
+
+            credentials {
+                username 'admin'
+                password 'admin123'
+            }
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile group: 'com.ning', name: 'async-http-client', version: '1.8.13'
+    compile group: 'redis.clients', name: 'jedis', version: '2.8.1'
+    compile group: 'com.alibaba', name: 'fastjson', version: '1.2.12'
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.2'
+    compile group: 'commons-lang', name: 'commons-lang', version: '2.6'
+    compile group:'org.apache.poi', name: 'poi', version:'3.12'
+    compile group:'org.apache.poi', name: 'poi-ooxml', version:'3.12'
+    compile group: 'org.springframework.data', name: 'spring-data-redis', version: '1.7.1.RELEASE'
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.6.2'
+    compile group: 'net.sf.json-lib', name: 'json-lib', version: '2.4',classifier:'jdk15'
+    compile group: 'org.lucee', name: 'commons-httpclient', version: '3.1'
+    compile group:'javax.servlet', name: 'javax.servlet-api', version:'3.1.0'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.7.4'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.7.4'
+    compile group: 'com.dangdang', name: 'sharding-jdbc-core', version: '1.2.0'
+    compile group: 'commons-io', name: 'commons-io', version: '2.4'
+    compile group:'dom4j', name:"dom4j", version:'1.6.1'
+    compile group: 'net.lingala.zip4j', name: 'zip4j', version: '1.3.2'
+    compile group: 'org.apache.curator', name: 'curator-recipes', version: '2.7.1'
+    compile group: 'org.apache.curator', name: 'curator-framework', version: '2.7.1'
+    /**解决build中文乱码问题**/
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+    }
+}
