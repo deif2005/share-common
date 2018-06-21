@@ -37,7 +37,7 @@ public class ZookeeperResource extends AbstractResource implements ApplicationCo
      */
     private static final String CLOUD_PATH_FORMAT = "/start-configs/%s/%s/config";
     private static String path = "";//String.format(PATH_FORMAT,CloudContextFactory.getCloudContext().getApplicationName() );
-    private String cloud_path = String.format(CLOUD_PATH_FORMAT, CloudContextFactory.getCloudContext().getProductCode(), CloudContextFactory.getCloudContext().getApplicationName());
+//    private String cloud_path = String.format(CLOUD_PATH_FORMAT, CloudContextFactory.getCloudContext().getProductCode(), CloudContextFactory.getCloudContext().getApplicationName());
     ConcurrentMap<String, Object> recoverDataCache = Maps.newConcurrentMap();
 
     AbstractApplicationContext ctx;
@@ -47,7 +47,7 @@ public class ZookeeperResource extends AbstractResource implements ApplicationCo
         String projectName = projectPath.substring(projectPath.lastIndexOf("\\")+1,projectPath.length());
         String localIp = NetUtil.getLocalHost();
         String rootNode = ConfigLoader.getInstance().getProperty(localIp+".root");
-        path = String.format(rootNode,projectName);
+        path = String.format(rootNode,"zkProperties");
     }
 
     @Override
@@ -108,8 +108,6 @@ public class ZookeeperResource extends AbstractResource implements ApplicationCo
                     tmp1 = new byte[data.length];
                     System.arraycopy(data,0,tmp1,0,data.length);
                 }
-                throw new Exception();
-
 //            } else if (ZKClient.getClient().checkExists().forPath(path) != null) {// cloud mode, NODE: /startconfigs/%s/config
 //                data = ZKClient.getClient().getData().forPath(path);
             } else { //cloud mode
