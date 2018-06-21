@@ -16,11 +16,7 @@ import java.util.Map;
 
 /**
  * TODO 一句话描述该类用途
- * <p/>
- * 创建时间: 14-8-5 下午4:41<br/>
  *
- * @author qyang
- * @since v0.0.1
  */
 public class ZookeeperConfigurer extends PropertySourcesPlaceholderConfigurer {
 

@@ -1,7 +1,6 @@
 package com.usi.zk;
 
 
-import com.google.common.base.Strings;
 import org.apache.curator.framework.CuratorFramework;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -9,11 +8,7 @@ import java.util.concurrent.ConcurrentMap;
 
 /**
  * zk client管理类
- * <p/>
- * 创建时间: 15/6/23 上午11:41<br/>
  *
- * @author qyang
- * @since v0.0.1
  */
 public class ZKClientManager {
     private static ConcurrentMap<String, CuratorFramework> zkClientMap = new ConcurrentHashMap<String, CuratorFramework>();

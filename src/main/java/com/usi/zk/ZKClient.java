@@ -1,5 +1,6 @@
 package com.usi.zk;
 
+import com.google.common.base.Strings;
 import com.usi.zk.util.AbstractLifecycle;
 import com.usi.zk.util.ConfigLoader;
 import com.usi.zk.util.NetUtil;
@@ -13,9 +14,7 @@ import java.net.UnknownHostException;
 
 /**
  * zk客户端
- * <p/>
- * 创建时间: 14-8-6 下午1:52<br/>
- * @since v0.0.1
+ *
  */
 public class ZKClient extends AbstractLifecycle {
     public static final Logger logger = LoggerFactory.getLogger(ZKClient.class);
@@ -30,22 +29,23 @@ public class ZKClient extends AbstractLifecycle {
     @Override
     protected void doStart() {
         isStart = true;
-        String ip = null;
-        String localIp = null;
+        String ip;
+        String localIp;
+        String url;
         try {
 //            ip = NetUtil.getIpByDomain(DEFAULT_DOMAIN_NAME);
             localIp = NetUtil.getLocalHost();
             ip = ConfigLoader.getInstance().getProperty(localIp+".zkip");
+            if(Strings.isNullOrEmpty(ip))
+                throw new RuntimeException("zookeeper ip is null");
+            url = ip + ":" + ConfigLoader.getInstance().getProperty(localIp+".zkport");
+            zkClient = CuratorFrameworkFactory.newClient(url, new ExponentialBackoffRetry(1000, 3));
+            zkClient.start();
+            logger.warn("ZKClient start success!");
         } catch (Exception e) {
-            logger.error("getIpByDomain error!", e);
+            logger.error("startZookeeper error!", e);
             System.exit(-1);
         }
-        String url = ip + ":" + ConfigLoader.getInstance().getProperty(localIp+".zkport");
-        zkClient = CuratorFrameworkFactory.newClient(url, new ExponentialBackoffRetry(1000, 3));
-        //innerRegisterListeners(zkClient);
-
-        zkClient.start();
-        logger.warn("ZKClient start success!");
     }
 
     /**

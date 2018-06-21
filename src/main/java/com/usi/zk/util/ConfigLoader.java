@@ -15,11 +15,7 @@ import java.util.Properties;
 /**
  * 配置文件装载器
  * 注意本地配置文件一般只存储初始化时需要的信息，不应该放置太多的配置信息（运行期可变的配置信息更不能放置在此），所以此类只支持一个配置文件
- * <p/>
- * 创建时间: 14-8-1 下午4:18<br/>
  *
- * @author qyang
- * @since v0.0.1
  */
 public class ConfigLoader {
     public static final Logger logger = LoggerFactory.getLogger(ConfigLoader.class);

@@ -10,11 +10,6 @@ import java.util.Properties;
 
 /**
  * properties文件读取
- * <p/>
- * 创建时间: 14/10/29 上午9:27<br/>
- *
- * @author qyang
- * @since v0.0.1
  */
 public class FileLoader {
     private static final Logger logger = LoggerFactory.getLogger(FileLoader.class);
