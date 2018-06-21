@@ -5,14 +5,18 @@ apply plugin: 'java'
 //apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
-//sourceCompatibility = 1.8
+//sourceCompatibility:指定编译.java文件的jdk版本
+sourceCompatibility = 1.8
+
+//targetCompatibility：确保class文件与targetCompatibility指定版本，或者更新的java虚拟机兼容，
+
 
 publishing {
     publications {
         maven(MavenPublication) {
             groupId 'com.usi.share'
             artifactId 'share-common'
-            version '1.3'
+            version '1.0.1'
             //若是war包，就写components.web,若是jar包，就写components.java
             from components.java
         }
@@ -35,6 +39,8 @@ publishing {
 }
 
 repositories {
+    repositories { maven { url 'http://192.168.1.200:8081/repository/maven-public/' } }
+    repositories { maven { url 'https://repo.spring.io/libs-snapshot/' } }
     mavenCentral()
 }
 

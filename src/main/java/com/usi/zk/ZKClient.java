@@ -10,8 +10,6 @@ import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.UnknownHostException;
-
 /**
  * zk客户端
  *
@@ -20,7 +18,7 @@ public class ZKClient extends AbstractLifecycle {
     public static final Logger logger = LoggerFactory.getLogger(ZKClient.class);
 
     /** 云管理中心域名 */
-    public static final String DEFAULT_DOMAIN_NAME = "wxtest.usisz.com";
+//    public static final String DEFAULT_DOMAIN_NAME = "wxtest.usisz.com";
 
     private volatile static CuratorFramework zkClient = null;
 
@@ -36,8 +34,10 @@ public class ZKClient extends AbstractLifecycle {
 //            ip = NetUtil.getIpByDomain(DEFAULT_DOMAIN_NAME);
             localIp = NetUtil.getLocalHost();
             ip = ConfigLoader.getInstance().getProperty(localIp+".zkip");
-            if(Strings.isNullOrEmpty(ip))
+            if(Strings.isNullOrEmpty(ip)) {
+                logger.error("zookeeper ip is null!");
                 throw new RuntimeException("zookeeper ip is null");
+            }
             url = ip + ":" + ConfigLoader.getInstance().getProperty(localIp+".zkport");
             zkClient = CuratorFrameworkFactory.newClient(url, new ExponentialBackoffRetry(1000, 3));
             zkClient.start();

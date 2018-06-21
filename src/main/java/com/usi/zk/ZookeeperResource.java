@@ -1,5 +1,6 @@
 package com.usi.zk;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.usi.encrypt.AESUtil;
 import com.usi.encrypt.EncryptUtil;
@@ -30,7 +31,7 @@ public class ZookeeperResource extends AbstractResource implements ApplicationCo
     private static Logger log = LoggerFactory.getLogger(ZookeeperResource.class);
 
     public static final String URL_HEADER = "zk://";
-    private static final String PATH_FORMAT = "/start-configs/%s";
+    private static final String PATH_FORMAT = "/dev-environment/start-configs/%s";
 
     /**
      * 多产品线支持 2015-08-19 add
@@ -43,11 +44,14 @@ public class ZookeeperResource extends AbstractResource implements ApplicationCo
     AbstractApplicationContext ctx;
 
     static {
-        String projectPath = System.getProperty("user.dir");
-        String projectName = projectPath.substring(projectPath.lastIndexOf("\\")+1,projectPath.length());
+        String projectName = ConfigLoader.getInstance().getProperty("project.name");
+        if (Strings.isNullOrEmpty(projectName)){
+            String projectPath = System.getProperty("user.dir");
+            projectName = projectPath.substring(projectPath.lastIndexOf("\\")+1,projectPath.length());
+        }
         String localIp = NetUtil.getLocalHost();
         String rootNode = ConfigLoader.getInstance().getProperty(localIp+".root");
-        path = String.format(rootNode,"zkProperties");
+        path = String.format(rootNode,projectName);
     }
 
     @Override
@@ -87,10 +91,7 @@ public class ZookeeperResource extends AbstractResource implements ApplicationCo
         byte[] tmpByte1;
         String rStr = System.getProperty("line.separator");
         try {
-            //data = ZKClient.getClient().getData().forPath(path);
-            //check cloud path exists
             if (ZKClient.getClient().checkExists().forPath(path) != null) { // cloud mode, NODE: /startconfigs/%s/%s/config
-//                data = ZKClient.getClient().getData().forPath(path);
                 List<String> pathList = ZKClient.getClient().getChildren().forPath(path);
                 for (String cPath:pathList){
                     String childNodeName = cPath.substring(cPath.lastIndexOf("\\")+1,cPath.length());
@@ -108,8 +109,6 @@ public class ZookeeperResource extends AbstractResource implements ApplicationCo
                     tmp1 = new byte[data.length];
                     System.arraycopy(data,0,tmp1,0,data.length);
                 }
-//            } else if (ZKClient.getClient().checkExists().forPath(path) != null) {// cloud mode, NODE: /startconfigs/%s/config
-//                data = ZKClient.getClient().getData().forPath(path);
             } else { //cloud mode
                 log.error("{} and {} none exists", "", path);
                 System.exit(-1);
@@ -128,7 +127,6 @@ public class ZookeeperResource extends AbstractResource implements ApplicationCo
 
         // 备份cmc配置到本地
         ZKRecoverUtil.doRecover(data, path, recoverDataCache);
-//        ZKRecoverUtil.doRecover(data, cloud_path, recoverDataCache);
 
         log.debug("init get startconfig data {}", new String(data));
         //  add by qyang  2015.10.21
