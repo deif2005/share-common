@@ -10,6 +10,8 @@ import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
 /**
  * zk客户端
  *
@@ -27,18 +29,25 @@ public class ZKClient extends AbstractLifecycle {
     @Override
     protected void doStart() {
         isStart = true;
-        String ip;
-        String localIp;
-        String url;
+        String zkIp;
+        String url="";
+        String zkPort;
         try {
 //            ip = NetUtil.getIpByDomain(DEFAULT_DOMAIN_NAME);
-            localIp = NetUtil.getLocalHost();
-            ip = ConfigLoader.getInstance().getProperty(localIp+".zkip");
-            if(Strings.isNullOrEmpty(ip)) {
-                logger.error("zookeeper ip is null!");
-                throw new RuntimeException("zookeeper ip is null");
+            List<String> localIps = NetUtil.getLocalIps();
+            for (String localIp:localIps){
+                zkIp = ConfigLoader.getInstance().getProperty(localIp+".zkip");
+                if(!Strings.isNullOrEmpty(zkIp)) {
+                    zkPort = ConfigLoader.getInstance().getProperty(localIp+".zkport");
+                    if (zkPort != null){
+                        url = zkIp + ":" + zkPort;
+                    }else{
+                        logger.error("zookeeper config not specified!");
+                        throw new RuntimeException("zookeeper config not specified!");
+                    }
+                    break;
+                }
             }
-            url = ip + ":" + ConfigLoader.getInstance().getProperty(localIp+".zkport");
             zkClient = CuratorFrameworkFactory.newClient(url, new ExponentialBackoffRetry(1000, 3));
             zkClient.start();
             logger.warn("ZKClient start success!");

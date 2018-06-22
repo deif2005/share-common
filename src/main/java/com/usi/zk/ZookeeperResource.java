@@ -2,9 +2,9 @@ package com.usi.zk;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
+
 import com.usi.encrypt.AESUtil;
 import com.usi.encrypt.EncryptUtil;
-import com.usi.zk.context.CloudContextFactory;
 import com.usi.zk.util.ConfigLoader;
 import com.usi.zk.util.NetUtil;
 import org.slf4j.Logger;
@@ -19,6 +19,7 @@ import org.springframework.core.io.AbstractResource;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.SocketException;
 import java.net.URL;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
@@ -49,9 +50,21 @@ public class ZookeeperResource extends AbstractResource implements ApplicationCo
             String projectPath = System.getProperty("user.dir");
             projectName = projectPath.substring(projectPath.lastIndexOf("\\")+1,projectPath.length());
         }
-        String localIp = NetUtil.getLocalHost();
-        String rootNode = ConfigLoader.getInstance().getProperty(localIp+".root");
-        path = String.format(rootNode,projectName);
+        try {
+            List<String> localIps = NetUtil.getLocalIps();
+            for (String ip:localIps){
+                String rootNode = ConfigLoader.getInstance().getProperty(ip+".root");
+                if (!Strings.isNullOrEmpty(rootNode)){
+                    path = String.format(rootNode,projectName);
+                    break;
+                }
+            }
+            if ("".equals(path)){
+                throw new RuntimeException("zookeeper config not specified");
+            }
+        }catch (SocketException e){
+            log.error("getlocalip error ",e);
+        }
     }
 
     @Override
@@ -92,13 +105,13 @@ public class ZookeeperResource extends AbstractResource implements ApplicationCo
         String rStr = System.getProperty("line.separator");
         try {
             if (ZKClient.getClient().checkExists().forPath(path) != null) { // cloud mode, NODE: /startconfigs/%s/%s/config
+                // miou 2018.06.22
                 List<String> pathList = ZKClient.getClient().getChildren().forPath(path);
                 for (String cPath:pathList){
                     String childNodeName = cPath.substring(cPath.lastIndexOf("\\")+1,cPath.length());
                     String childNodeValue = new String(ZKClient.getClient().getData().forPath(path+"/"+cPath));
                     String nameAndValue = childNodeName+"="+childNodeValue+rStr;
                     tmpByte1 = nameAndValue.getBytes();
-
                     data = new byte[tmpByte1.length+tmp1.length];
                     //tmpByte+tmp1-->data
                     System.arraycopy(tmpByte1,0,data,0,tmpByte1.length);
@@ -129,7 +142,6 @@ public class ZookeeperResource extends AbstractResource implements ApplicationCo
         ZKRecoverUtil.doRecover(data, path, recoverDataCache);
 
         log.debug("init get startconfig data {}", new String(data));
-        //  add by qyang  2015.10.21
         if (EncryptUtil.isEncrypt(data)) {
             byte[] pureData = new byte[data.length - 2];
             System.arraycopy(data, 2, pureData, 0, data.length - 2);
@@ -166,5 +178,4 @@ public class ZookeeperResource extends AbstractResource implements ApplicationCo
 //            }
 //        }
     }
-
 }
