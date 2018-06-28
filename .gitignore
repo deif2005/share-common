@@ -71,3 +71,10 @@
 .idea/misc.xml
 .idea/modules.xml
 .idea/vcs.xml
+.idea/encodings.xml
+.idea/uiDesigner.xml
+build/libs/share-common-1.0.jar
+build/publications/maven/pom-default.xml
+build/tmp/jar/MANIFEST.MF
+build/tmp/publishMavenPublicationToMavenRepository/com/usi/share/share-common/maven-metadata-remote.xml
+build/tmp/publishMavenPublicationToMavenRepository/com/usi/share/share-common/resolver-status.properties

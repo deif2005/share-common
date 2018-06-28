@@ -16,7 +16,7 @@ publishing {
         maven(MavenPublication) {
             groupId 'com.usi.share'
             artifactId 'share-common'
-            version '1.0.1'
+            version '1.0.2'
             //若是war包，就写components.web,若是jar包，就写components.java
             from components.java
         }
@@ -25,9 +25,9 @@ publishing {
         maven {
 
             if (project.version.endsWith('-SNAPSHOT')) {
-                url = "http://192.168.1.200:8081/repository/maven-snapshots/"
+                url = "http://192.168.1.82:8081/repository/maven-snapshots/"
             } else {
-                url = "http://192.168.1.200:8081/repository/maven-releases/"
+                url = "http://192.168.1.82:8081/repository/maven-releases/"
             }
 
             credentials {
