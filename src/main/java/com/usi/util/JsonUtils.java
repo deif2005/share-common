@@ -191,14 +191,24 @@ public class JsonUtils {
 	 */
 	public static net.sf.json.JSONObject verifyCode(String json) {
 		String data = json.toLowerCase();
+		String code ="";
+		String result = "";
+		String msg="";
 		net.sf.json.JSONObject jsonObject = net.sf.json.JSONObject.fromObject(data);
-		String code = jsonObject.getString("code");
-		String result = jsonObject.getString("result");
-		if(StringUtils.isBlank(result)){
-			result = "失败";
-		}
+		if (jsonObject.containsKey("code"))
+			code = jsonObject.getString("code");
+
+		if (jsonObject.containsKey("result"))
+			result = jsonObject.getString("result");
+
+		if (jsonObject.containsKey("msg"))
+			msg = jsonObject.getString("msg");
+
+//		if(StringUtils.isBlank(result)){
+//			result = "失败";
+//		}
 		if(!"0".equals(code)){
-			throw new RuntimeException(code+"&&"+result);
+			throw new RuntimeException(code+"&&"+msg);
 		}
 		return jsonObject;
 	}

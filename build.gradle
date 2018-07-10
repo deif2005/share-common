@@ -10,24 +10,64 @@ sourceCompatibility = 1.8
 
 //targetCompatibility：确保class文件与targetCompatibility指定版本，或者更新的java虚拟机兼容，
 
+//设置动态属性
+ext {
+//发布到仓库用户名
+ publishUserName = "admin"
+// 发布到仓库地址
+ publishUserPassword = "admin123"
+// 仓库地址
+// publishURL="http://196.10.149.149:8080/nexus/content/repositories/snapshots/"
+ apiBaseJarName = "share-common"
+ apiBaseJarVersion = '1.0.3'
+
+// builtBy="gradle 1.9"
+}
+
+task apiBaseJar(type:Jar){
+    version apiBaseJarVersion
+    baseName apiBaseJarName
+    from sourceSets.main.output
+    destinationDir file("$buildDir/libs")
+    includes ['com/usi/**']
+    manifest {
+        attributes 'packageName': apiBaseJarName,
+                'Built-date': new Date().format('yyyy-MM-dd HH:mm:ss'),
+                'Manifest-Version':version
+    }
+}
+
+//打包源码
+task apiBaseSourceJar(type:Jar){
+    version apiBaseJarVersion
+    baseName apiBaseJarName
+    classifier "sources"
+    from sourceSets.main.allSource
+    destinationDir file("$buildDir/libs")
+    includes ['com/usi/**']
+    manifest {
+        attributes 'packageName': apiBaseJarName+'-sources',
+                'Built-date' : new Date().format('yyyy-MM-dd HH:mm:ss'),
+                'Manifest-Version':version }
+}
 
 publishing {
     publications {
         maven(MavenPublication) {
             groupId 'com.usi.share'
-            artifactId 'share-common'
-            version '1.0.2'
+            artifactId apiBaseJarName
+            version apiBaseJarVersion
+            artifacts = [apiBaseJar,apiBaseJarName]
             //若是war包，就写components.web,若是jar包，就写components.java
             from components.java
         }
     }
     repositories {
         maven {
-
             if (project.version.endsWith('-SNAPSHOT')) {
-                url = "http://192.168.1.82:8081/repository/maven-snapshots/"
+                url = "http://192.168.1.200:8081/repository/maven-snapshots/"
             } else {
-                url = "http://192.168.1.82:8081/repository/maven-releases/"
+                url = "http://192.168.1.200:8081/repository/maven-releases/"
             }
 
             credentials {
