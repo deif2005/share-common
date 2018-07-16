@@ -1,5 +1,5 @@
 group 'com.usi.share'
-version '1.0'
+//version '1.0'
 
 apply plugin: 'java'
 //apply plugin: 'maven'
@@ -19,7 +19,7 @@ ext {
 // 仓库地址
 // publishURL="http://196.10.149.149:8080/nexus/content/repositories/snapshots/"
  apiBaseJarName = "share-common"
- apiBaseJarVersion = '1.0.3'
+ apiBaseJarVersion = '1.0.4'
 
 // builtBy="gradle 1.9"
 }
@@ -57,9 +57,9 @@ publishing {
             groupId 'com.usi.share'
             artifactId apiBaseJarName
             version apiBaseJarVersion
-            artifacts = [apiBaseJar,apiBaseJarName]
+            artifacts = [apiBaseJar,apiBaseSourceJar]
             //若是war包，就写components.web,若是jar包，就写components.java
-            from components.java
+//            from components.java
         }
     }
     repositories {
