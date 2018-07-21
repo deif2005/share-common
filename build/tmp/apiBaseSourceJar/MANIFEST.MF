@@ -1,0 +1,4 @@
+Manifest-Version: 1.0.4
+Built-date: 2018-07-16 11:27:23
+packageName: share-common-sources
+
