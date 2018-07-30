@@ -10,14 +10,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-/**
- * @author 廖大剑
- * @version V1.0
- * @Description: 工具类 - 日期实用方法类
- * @Copyright: Copyright(c) 2011
- * @Company: 广州竞远系统网络技术有限公司
- * @date Aug 12, 2011
- */
 public class DateUtil {
 
     static DateFormat dtfd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -38,12 +30,6 @@ public class DateUtil {
     public final static String getFormatTime(String dateTime, String format) {
         SimpleDateFormat formatter = new SimpleDateFormat(format);
         return formatter.format(DateUtil.parseDate(dateTime));
-    }
-
-    // 取得格式化效果的系统日期！ 格式如：yyyy-MM-dd kk:mm:ss
-    public final static String getDateToString(Date date, String format) {
-        SimpleDateFormat f = new SimpleDateFormat(format, Locale.US);
-        return f.format(date);
     }
 
     // 取得格式化效果的系统日期！ 格式如：yyyy-MM-dd kk:mm:ss
@@ -107,6 +93,21 @@ public class DateUtil {
         return getFormateDate("kk:mm:ss");
     }
 
+    // 使用指定的模式来解析字符串日期时间.
+    public final static Date parseSimpleDT(String pattern, String dateStr) {
+        try {
+            return new SimpleDateFormat(pattern, Locale.US).parse(dateStr);
+        } catch (ParseException ex) {
+            return null;
+        }
+    }
+
+    // 取得格式化效果的系统日期！ 格式如：yyyy-MM-dd kk:mm:ss
+    public final static String getDateToString(Date date, String format) {
+        SimpleDateFormat f = new SimpleDateFormat(format, Locale.US);
+        return f.format(date);
+    }
+
     // 判断指定的字符串是否是正确的日期时间字符串.
     // 该方法支持日期或日期时间的判断.
 
@@ -157,15 +158,6 @@ public class DateUtil {
 
     public final static Date parseSimpleTime(String timeStr) {
         return parseSimpleDT("kk:mm:ss", timeStr);
-    }
-
-    // 使用指定的模式来解析字符串日期时间.
-    public final static Date parseSimpleDT(String pattern, String dateStr) {
-        try {
-            return new SimpleDateFormat(pattern, Locale.US).parse(dateStr);
-        } catch (ParseException ex) {
-            return null;
-        }
     }
 
     // 比较两个日期的大小.返回-1表示date1在date2之前，返回0表示两者相等，返回1 则表示date1在date2之后.
@@ -250,7 +242,8 @@ public class DateUtil {
     /**
      * @param dt 日期时间字符串,必须包含时间
      * @return String
-     * @Description:对日期时间字符串的提示字符串生成方法. 该方法主要是对日期时间字符串的提示, 类似:1分钟前,1小时前等.对于大于1天的,则会提示
+     * @Description:对日期时间字符串的提示字符串生成方法.
+     * 该方法主要是对日期时间字符串的提示, 类似:1分钟前,1小时前等.对于大于1天的,则会提示
      * 1天前,2天前等等这样的提示.
      * @date Aug 12, 2011
      * @modify
@@ -410,10 +403,6 @@ public class DateUtil {
     /**
      * 清除时间格式，如 12:00-13:00;返回出来是12001300 ; 月日时分09-02 12:00/09-05 18:00 返回出来的是
      * 0902120009051800
-     *
-     * @param dateTime
-     * @return
-     * @author 廖大剑
      */
     public static String clearFormat(String dateTime) {
         if (dateTime == null || dateTime.equalsIgnoreCase("")) {

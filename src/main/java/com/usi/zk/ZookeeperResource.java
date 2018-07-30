@@ -32,12 +32,14 @@ public class ZookeeperResource extends AbstractResource implements ApplicationCo
     private static Logger log = LoggerFactory.getLogger(ZookeeperResource.class);
 
     public static final String URL_HEADER = "zk://";
-    private static final String PATH_FORMAT = "/dev-environment/start-configs/%s";
+    public static String START_PATH = "/%s/start-configs";
+    public static String DEVICE_PLATFORM_PATH = "/%s/deviceplatform";
+
 
     /**
      * 多产品线支持 2015-08-19 add
      */
-    private static final String CLOUD_PATH_FORMAT = "/start-configs/%s/%s/config";
+//    private static final String CLOUD_PATH_FORMAT = "/start-configs/%s/%s/config";
     private static String path = "";//String.format(PATH_FORMAT,CloudContextFactory.getCloudContext().getApplicationName() );
 //    private String cloud_path = String.format(CLOUD_PATH_FORMAT, CloudContextFactory.getCloudContext().getProductCode(), CloudContextFactory.getCloudContext().getApplicationName());
     ConcurrentMap<String, Object> recoverDataCache = Maps.newConcurrentMap();
@@ -55,7 +57,10 @@ public class ZookeeperResource extends AbstractResource implements ApplicationCo
             for (String ip:localIps){
                 String rootNode = ConfigLoader.getInstance().getProperty(ip+".root");
                 if (!Strings.isNullOrEmpty(rootNode)){
+                    String rootStr = rootNode.substring(1,rootNode.indexOf("/",1));
                     path = String.format(rootNode,projectName);
+                    START_PATH = String.format(START_PATH,rootStr);
+                    DEVICE_PLATFORM_PATH = String.format(DEVICE_PLATFORM_PATH,rootStr);
                     break;
                 }
             }
