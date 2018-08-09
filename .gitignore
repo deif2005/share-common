@@ -78,3 +78,8 @@ build/publications/maven/pom-default.xml
 build/tmp/jar/MANIFEST.MF
 build/tmp/publishMavenPublicationToMavenRepository/com/usi/share/share-common/maven-metadata-remote.xml
 build/tmp/publishMavenPublicationToMavenRepository/com/usi/share/share-common/resolver-status.properties
+build/libs/share-common-1.0.4-sources.jar
+build/libs/share-common-1.0.6-sources.jar
+build/tmp/apiBaseJar/MANIFEST.MF
+build/tmp/apiBaseSourceJar/MANIFEST.MF
+build/libs/share-common-1.0.6.jar

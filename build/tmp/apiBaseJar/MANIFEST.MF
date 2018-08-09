@@ -1,4 +1,4 @@
-Manifest-Version: 1.0.4
-Built-date: 2018-07-16 11:27:23
+Manifest-Version: 1.0.6
+Built-date: 2018-07-22 15:07:36
 packageName: share-common
 
