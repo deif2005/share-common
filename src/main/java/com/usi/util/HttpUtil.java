@@ -1,5 +1,6 @@
 package com.usi.util;
 
+import com.usi.encrypt.MD5Utils;
 import net.sf.json.JSONObject;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.lang.StringUtils;
@@ -232,7 +233,7 @@ public class HttpUtil {
         List<BasicNameValuePair> pairList = new ArrayList<>();
         //验签
         String str  = "captcha=142583&phone=15200300282";
-        String md5Str = "a496c3d0d3aeba51fdcbdf73695fffff"+MD5Utils.getMD5(str);
+        String md5Str = "a496c3d0d3aeba51fdcbdf73695fffff"+ MD5Utils.getMD5(str);
         String sign = StringUtil.getSignature(md5Str,"sa95c1c1329cd8eb533f69361e1167f2");
 
 

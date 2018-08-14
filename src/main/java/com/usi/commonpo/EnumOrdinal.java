@@ -1,4 +1,4 @@
-package com.usi.util;
+package com.usi.commonpo;
 
 /**
  * Created by defi on 2016/7/7.

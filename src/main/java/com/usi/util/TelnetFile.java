@@ -116,7 +116,6 @@ public class TelnetFile {
         return body;
     }
 
-
     public static void main(String[] args){
         String filePath = "D:\\exam\\data\\remark.txt";
         String url = "http://192.168.10.61:8088/microschoolappsvr-static/upload.jsp";

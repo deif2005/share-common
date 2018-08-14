@@ -1,5 +1,6 @@
 package com.usi.util;
 
+import com.usi.encrypt.EncryptUtil;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
@@ -15,10 +16,7 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.security.MessageDigest;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author defi
@@ -655,6 +653,7 @@ public class FileUtil {
 //      System.out.println(builder.toString());
 		return builder.toString();
 	}
+
 
 	public static void main(String[] arg) throws Exception {
 //		List<String> file = new ArrayList<>();

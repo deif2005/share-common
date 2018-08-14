@@ -1,4 +1,4 @@
-package com.usi.util;
+package com.usi.encrypt;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
