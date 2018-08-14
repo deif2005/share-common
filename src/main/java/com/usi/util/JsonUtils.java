@@ -80,8 +80,7 @@ public class JsonUtils {
 	public static List<?> jsonToList(String jsonStr) {
 		List<?> objList = null;
 		if (gson != null) {
-			Type type = new com.google.gson.reflect.TypeToken<List<?>>() {
-			}.getType();
+			Type type = new com.google.gson.reflect.TypeToken<List<?>>(){}.getType();
 			objList = gson.fromJson(jsonStr, type);
 		}
 		return objList;
@@ -168,7 +167,7 @@ public class JsonUtils {
 	}
 
 	/**
-	 * 根据
+	 * 根据key获取对应value值
 	 * 
 	 * @param jsonStr
 	 * @param key

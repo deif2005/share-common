@@ -660,27 +660,6 @@ public class FileUtil {
 //		List<String> file = new ArrayList<>();
 //		listDirectory(new File("D:\\zipts\\test"),file);
 //		System.out.println(file.toString());
-
 		System.out.println(getFileType("F:\\帐号密码管理.xlsx"));
-
-		//readerFileContent("D:/Dev/apache-tomcat-7.0.67/webap123ps/microschoolappsvr-static/download/paper/20160803145918/导出测试-20160803145918/db6badb3-02cb-4c27-afd7-1548cdb69417/paper.xml", "UTF-8");
-		/*Map<String, Class> classMap = new HashMap<>();
-		classMap.put("topicList", TopicXml.class);
-		classMap.put("sectionList", SectionXml.class);
-		classMap.put("questionList", QuestionXml.class);
-		classMap.put("resourceList", ResourceXml.class);
-		PaperXml xml = (PaperXml) XmlUtil.xmlToBean(readerFileContent("D:/Dev/apache-tomcat-7.0.67/webapps/microschoolappsvr-static/download/paper/20160803145918/导出测试-20160803145918/db6badb3-02cb-4c27-afd7-1548cdb69417/paper.xml", "UTF-8"), PaperXml.class, classMap);
-		System.out.println("123123");*/
-		//System.out.println(getMd5ByFile("h:/ideaiu14.rar"));
-		//createDirOrFile("d:\\download\\paper\\20160718191026\\44444");
-
-		//copyFile("d:/制卷系统.rar","d:/upload/制卷系统.rar",true);
-		//String len = FileUtil.readerFileContent("D:\\wrok\\yj-core\\doc\\全流程测试A3C4SX多选题.xml");
-//        List<String> list = FileUtil.unZip("C:\\Users\\john\\Downloads\\test.zip");
-//        for(String path : list) {
-//            System.out.println(path);
-//        }
-
-		// System.out.println(FileUtil.renameFile("C:/zyj_file_dir/paper/229/e9629f96-543d-11e5-9410-525400a25a33/090637/StudentZip.zip","1362918EDB6FEC3FFD6F31B2C48FE3FDF"));
 	}
 }
