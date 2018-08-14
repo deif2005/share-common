@@ -26,7 +26,6 @@ import java.util.Map;
 /**
  * XmlUtil
  * xml操作工具类
- * @author yuhao
  * @date 2016/7/12
  */
 public class XmlUtil {

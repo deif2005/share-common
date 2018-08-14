@@ -4,10 +4,6 @@ import com.ning.http.util.Base64;
 
 import java.io.*;
 
-/**
- * @author yuhao
- * @create 2017-09-19 16:16
- **/
 public class Base64Webm {
     public static void readTxtFile(String filePath,String saveFilePath) {
         try {

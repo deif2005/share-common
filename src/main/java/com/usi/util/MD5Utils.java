@@ -6,9 +6,7 @@ import java.security.NoSuchAlgorithmException;
 /**
  *
  * 此类是MD5加密算法的实现， 采用了java内置算法，需要引用java.security.MessageDigest
- *
- * @author airland.congs
- * @version $Revision: 1.1 $
+ * @version
  *
  */
 public class MD5Utils {

@@ -4,14 +4,6 @@ import com.ning.http.client.Request;
 
 import java.io.*;
 
-/**
- * 功能描述：
- *
- * @author <a href="mailto:guohua@ucweb.com">郭华</a>
- * @version 1.0.0
- * @since 1.0.0
- * create on: 2014/8/20 11:45
- */
 public class UploadEntityWriter implements Request.EntityWriter {
     byte[] end_data;
     File file;

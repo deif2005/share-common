@@ -15,12 +15,9 @@ import java.util.*;
 
 
 /**
- * @author 廖大剑
+ * @author
  * @version V1.0
  * @Description: 工具类 - 字符串实用方法类
- * @Copyright: Copyright(c) 2011
- * @Company: 广州竞远
- * @date 2012-11-05
  */
 public class StringUtil {
 

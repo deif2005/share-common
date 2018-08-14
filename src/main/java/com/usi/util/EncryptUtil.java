@@ -10,9 +10,6 @@ import java.security.NoSuchAlgorithmException;
 
 /**
  * @Description: 工具类 - 加密工具类
- * @author 廖大剑
- * @version V1.0
- * @Company: 广东全通教育股份有限公司
  * @date 2015/8/14
  */
 public class EncryptUtil {

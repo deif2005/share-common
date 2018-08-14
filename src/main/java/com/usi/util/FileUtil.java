@@ -21,11 +21,9 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * @author 廖大剑
+ * @author defi
  * @version V1.0
  * @Description: 文件工具
- * @Company: 广东全通教育股份有限公司
- * @date 2015/8/20
  */
 public class FileUtil {
 

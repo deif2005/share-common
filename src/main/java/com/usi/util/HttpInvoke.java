@@ -11,9 +11,6 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Map;
 
-/**
- * Created by 郭剑锋 on 2017/4/15.
- */
 public class HttpInvoke {
     static private Logger logger = LoggerFactory.getLogger(HttpInvoke.class);
     private static String CHARACTER_ENCODING = "utf-8";

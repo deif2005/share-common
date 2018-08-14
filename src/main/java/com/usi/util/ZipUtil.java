@@ -12,10 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ZipUtils
  * 压缩包相关工具类
- * @author yuhao
- * @date 2016/8/25
+ * @date
  */
 public class ZipUtil {
 

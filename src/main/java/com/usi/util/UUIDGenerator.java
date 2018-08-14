@@ -3,7 +3,7 @@ package com.usi.util;
 import java.util.UUID;
 
 /**
- * Created by aikuangyong on 2016/2/29.
+ * Created by on 2016/2/29.
  * 下面就是实现为数据库获取一个唯一的主键id的代码
  */
 public class UUIDGenerator {

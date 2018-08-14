@@ -10,7 +10,6 @@ import java.net.URL;
 /**
  * URLAvailability
  * url验证工具类
- * @author yuhao
  * @date 2016/5/24
  */
 @SuppressWarnings("unused")
