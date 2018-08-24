@@ -1,6 +1,10 @@
 package com.usi.encrypt;
 
 
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.DESedeKeySpec;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -203,4 +207,21 @@ public class EncryptUtil {
             return null;
         }
     }
+
+    /**
+     * DES3加密
+     * @param mykey 密钥（二进制数组）
+     * @param str   要加密的字符串
+     * @return
+     */
+    public static byte[] des3Encrypt(byte[] mykey, String str) throws Exception {
+        DESedeKeySpec dks = new DESedeKeySpec(mykey);
+        SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DESede");
+        SecretKey securekey = keyFactory.generateSecret(dks);
+        Cipher cipher = Cipher.getInstance("DESede");
+        cipher.init(Cipher.ENCRYPT_MODE, securekey);
+        byte[] b = cipher.doFinal(str.getBytes());
+        return b;
+    }
+
 }

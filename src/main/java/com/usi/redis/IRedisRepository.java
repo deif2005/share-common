@@ -50,7 +50,7 @@ public interface IRedisRepository<K,V>  {
 
     // Set
     public Long sAdd(final K key, final V value) ;
-    public Set<V> sDiff(final K key) ;
+    public Set<V> sDiff(final K key, final K otherkey) ;
     public Set<V> sMembers(final K key) ;
     public Boolean sIsMember(final K key, final V value);
     public V sPop(final K key) ;

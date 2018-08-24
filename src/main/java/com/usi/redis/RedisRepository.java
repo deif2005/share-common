@@ -3,6 +3,7 @@ package com.usi.redis;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Component;
 
@@ -228,8 +229,8 @@ public class RedisRepository<K,V> implements IRedisRepository<K,V> {
         return ops.add(value);
     }
 
-    public Set<V> sDiff(final K key) {
-        BoundSetOperations<K,V> ops  = this.getBoundSetOps(key);
+    public Set<V> sDiff(final K key, final K otherkey) {
+        BoundSetOperations<K,V> ops  = this.getBoundSetOps(otherkey);
         return ops.diff(key);
     }
 
@@ -288,5 +289,4 @@ public class RedisRepository<K,V> implements IRedisRepository<K,V> {
     public void setRedisTemplate(RedisTemplate<K, V> redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
-
 }

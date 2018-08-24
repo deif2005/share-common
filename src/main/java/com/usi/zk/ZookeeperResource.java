@@ -35,7 +35,6 @@ public class ZookeeperResource extends AbstractResource implements ApplicationCo
     public static String START_PATH = "/%s/start-configs";
     public static String DEVICE_PLATFORM_PATH = "/%s/deviceplatform";
 
-
     /**
      * 多产品线支持 2015-08-19 add
      */

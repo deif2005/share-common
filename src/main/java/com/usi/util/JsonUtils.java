@@ -1,7 +1,9 @@
 package com.usi.util;
 
 import com.google.gson.*;
-import org.apache.commons.lang.StringUtils;
+import net.sf.json.JSON;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.text.ParseException;
@@ -132,6 +134,29 @@ public class JsonUtils {
 
 	/**
 	 * 将json转换成bean对象
+	 * @param jsonStr
+	 * @return
+	 */
+	public static Object jsonToBean(String jsonStr){
+		JSONObject jsonObject = JSONObject.fromObject(jsonStr);
+		Object object = JSONObject.toBean(jsonObject);
+		return object;
+	}
+
+	/**
+	 *
+	 * @param jsonStr
+	 * @param cl
+	 * @return
+	 */
+	public static List<?> jsonToList(String jsonStr,Class<?> cl){
+		JSONArray jsonArray = JSONArray.fromObject(jsonStr);
+		List<?> list = (List<?>) JSONArray.toCollection(jsonArray,cl);
+		return list;
+	}
+
+	/**
+	 * 将json转换成bean对象
 	 *
 	 * @param jsonStr
 	 * @param cl
@@ -210,5 +235,7 @@ public class JsonUtils {
 		}
 		return jsonObject;
 	}
+
+
 
 }
