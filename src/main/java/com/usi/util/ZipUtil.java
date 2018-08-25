@@ -92,6 +92,7 @@ public class ZipUtil {
         List<String> fileList = new ArrayList<>();
         try {
             ZipFile zipFile = new ZipFile(zipPath);
+            zipFile.setFileNameCharset("GBK");
             //判断是否存在密码
             if (zipFile.isEncrypted() && StringUtils.isNotBlank(password)) {
                 zipFile.setPassword(password);
@@ -129,17 +130,8 @@ public class ZipUtil {
     }
 
     public static void main(String[] args) {
-        String files [] = new String[3];
-        files[0] = "d:\\ZipTest\\])(}E9XZ5J7AB}$NM(OL[]R.png";
-        files[1] = "D:\\microschoolappsvr\\tomcat_ices_static\\webapps\\microschoolappsvr-static\\download\\paper\\asdf-20160810155411.eps";
-        files[2] = "d:\\ZipTest\\2.xml";
-        String dirs [] = new String[3];
-        dirs[0] = "D:\\download\\kwb\\photo";
-        dirs[1] = "D:\\upload\\student\\photo\\T100001";
-        dirs[2] = "D:\\upload\\test";
-        compressZip("d:\\zipts\\test.ans",files,dirs,"123451");
-
-        List<String> fileList = unZip("D:\\zipts\\test.ans","123451",null);
-        System.out.println(fileList.toString());
+//        String filePath = "D:\\usi_soft\\file\\zkinfo.zip";
+//        List<String> fileList = unZip(filePath,null,null);
+//        System.out.println(fileList.toString());
     }
 }
