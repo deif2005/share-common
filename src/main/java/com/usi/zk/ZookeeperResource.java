@@ -32,8 +32,10 @@ public class ZookeeperResource extends AbstractResource implements ApplicationCo
     private static Logger log = LoggerFactory.getLogger(ZookeeperResource.class);
 
     public static final String URL_HEADER = "zk://";
+    public static String rootPath;
     public static String START_PATH = "/%s/start-configs";
     public static String DEVICE_PLATFORM_PATH = "/%s/deviceplatform";
+//    public static String STATIC_CONIFG = "%s/static_config";
 
     /**
      * 多产品线支持 2015-08-19 add
@@ -57,6 +59,7 @@ public class ZookeeperResource extends AbstractResource implements ApplicationCo
                 String rootNode = ConfigLoader.getInstance().getProperty(ip+".root");
                 if (!Strings.isNullOrEmpty(rootNode)){
                     String rootStr = rootNode.substring(1,rootNode.indexOf("/",1));
+                    rootPath = rootStr;
                     path = String.format(rootNode,projectName);
                     START_PATH = String.format(START_PATH,rootStr);
                     DEVICE_PLATFORM_PATH = String.format(DEVICE_PLATFORM_PATH,rootStr);
@@ -182,4 +185,6 @@ public class ZookeeperResource extends AbstractResource implements ApplicationCo
 //            }
 //        }
     }
+
+
 }

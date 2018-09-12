@@ -1,6 +1,7 @@
 package com.usi.util;
 
 import net.lingala.zip4j.core.ZipFile;
+import net.lingala.zip4j.model.FileHeader;
 import net.lingala.zip4j.model.ZipParameters;
 import net.lingala.zip4j.util.Zip4jConstants;
 import org.apache.commons.lang.StringUtils;
@@ -10,6 +11,8 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 压缩包相关工具类
@@ -92,7 +95,7 @@ public class ZipUtil {
         List<String> fileList = new ArrayList<>();
         try {
             ZipFile zipFile = new ZipFile(zipPath);
-            zipFile.setFileNameCharset("GBK");
+            zipFile.setFileNameCharset(getEncoding(zipPath));
             //判断是否存在密码
             if (zipFile.isEncrypted() && StringUtils.isNotBlank(password)) {
                 zipFile.setPassword(password);
@@ -124,14 +127,62 @@ public class ZipUtil {
             }else if(e.getMessage().contains("password")){
                 throw new RuntimeException("解压缩文件失败，密码错误！");
             }
-            logger.error("解压缩文件异常：",e);
         }
         return fileList;
     }
 
+    private static String getEncoding(String path) throws Exception
+    {
+        String encoding = "UTF-8" ;
+        ZipFile zipFile = new ZipFile(path) ;
+        zipFile.setFileNameCharset(encoding) ;
+        List<FileHeader> list = zipFile.getFileHeaders() ;
+        for(int i=0;i<list.size();i++)
+        {
+            FileHeader fileHeader = list.get(i) ;
+            String fileName = fileHeader.getFileName();
+            //判断是不是乱码
+            if (!isMessyCode(fileName)){
+                return encoding;
+            }else
+                return "GBK";
+        }
+        return encoding ;
+    }
+
+    /**
+     * 判断是否为乱码
+     * @param strName
+     * @return
+     */
+    private static boolean isMessyCode(String strName) {
+        try {
+            Pattern p = Pattern.compile("\\s*|\t*|\r*|\n*");
+            Matcher m = p.matcher(strName);
+            String after = m.replaceAll("");
+            String temp = after.replaceAll("\\p{P}", "");
+            char[] ch = temp.trim().toCharArray();
+
+            int length = (ch != null) ? ch.length : 0;
+            for (int i = 0; i < length; i++) {
+                char c = ch[i];
+                if (!Character.isLetterOrDigit(c)) {
+                    String str = "" + ch[i];
+                    if (!str.matches("[\u4e00-\u9fa5]+")) {
+                        return true;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
     public static void main(String[] args) {
-//        String filePath = "D:\\usi_soft\\file\\zkinfo.zip";
-//        List<String> fileList = unZip(filePath,null,null);
-//        System.out.println(fileList.toString());
+        String filePath = "D:\\home\\usi_resource\\subject\\jy_package\\初中数学基础数据 (1).zip";
+        List<String> fileList = unZip(filePath,null,null);
+        System.out.println(fileList.toString());
     }
 }
