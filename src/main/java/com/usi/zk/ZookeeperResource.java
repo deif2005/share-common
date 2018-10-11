@@ -44,7 +44,6 @@ public class ZookeeperResource extends AbstractResource implements ApplicationCo
     private static String path = "";//String.format(PATH_FORMAT,CloudContextFactory.getCloudContext().getApplicationName() );
 //    private String cloud_path = String.format(CLOUD_PATH_FORMAT, CloudContextFactory.getCloudContext().getProductCode(), CloudContextFactory.getCloudContext().getApplicationName());
     ConcurrentMap<String, Object> recoverDataCache = Maps.newConcurrentMap();
-
     AbstractApplicationContext ctx;
 
     static {
@@ -54,16 +53,26 @@ public class ZookeeperResource extends AbstractResource implements ApplicationCo
             projectName = projectPath.substring(projectPath.lastIndexOf("\\")+1,projectPath.length());
         }
         try {
-            List<String> localIps = NetUtil.getLocalIps();
-            for (String ip:localIps){
-                String rootNode = ConfigLoader.getInstance().getProperty(ip+".root");
-                if (!Strings.isNullOrEmpty(rootNode)){
-                    String rootStr = rootNode.substring(1,rootNode.indexOf("/",1));
-                    rootPath = rootStr;
-                    path = String.format(rootNode,projectName);
-                    START_PATH = String.format(START_PATH,rootStr);
-                    DEVICE_PLATFORM_PATH = String.format(DEVICE_PLATFORM_PATH,rootStr);
-                    break;
+            String rootNode;
+            rootNode = ConfigLoader.getInstance().getProperty("localhost.root");
+            if (!Strings.isNullOrEmpty(rootNode)){
+                String rootStr = rootNode.substring(1,rootNode.indexOf("/",1));
+                rootPath = rootStr;
+                path = String.format(rootNode,projectName);
+                START_PATH = String.format(START_PATH,rootStr);
+                DEVICE_PLATFORM_PATH = String.format(DEVICE_PLATFORM_PATH,rootStr);
+            }else {
+                List<String> localIps = NetUtil.getLocalIps();
+                for (String ip:localIps){
+                    rootNode = ConfigLoader.getInstance().getProperty(ip+".root");
+                    if (!Strings.isNullOrEmpty(rootNode)){
+                        String rootStr = rootNode.substring(1,rootNode.indexOf("/",1));
+                        rootPath = rootStr;
+                        path = String.format(rootNode,projectName);
+                        START_PATH = String.format(START_PATH,rootStr);
+                        DEVICE_PLATFORM_PATH = String.format(DEVICE_PLATFORM_PATH,rootStr);
+                        break;
+                    }
                 }
             }
             if ("".equals(path)){

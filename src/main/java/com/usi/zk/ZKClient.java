@@ -34,18 +34,24 @@ public class ZKClient extends AbstractLifecycle {
         String zkPort;
         try {
 //            ip = NetUtil.getIpByDomain(DEFAULT_DOMAIN_NAME);
-            List<String> localIps = NetUtil.getLocalIps();
-            for (String localIp:localIps){
-                zkIp = ConfigLoader.getInstance().getProperty(localIp+".zkip");
-                if(!Strings.isNullOrEmpty(zkIp)) {
-                    zkPort = ConfigLoader.getInstance().getProperty(localIp+".zkport");
-                    if (zkPort != null){
-                        url = zkIp + ":" + zkPort;
-                    }else{
-                        logger.error("zookeeper config not specified!");
-                        throw new RuntimeException("zookeeper config not specified!");
+            zkIp = ConfigLoader.getInstance().getProperty("localhost.zkip");
+            zkPort = ConfigLoader.getInstance().getProperty("localhost.zkport");
+            if (!Strings.isNullOrEmpty(zkIp) && !Strings.isNullOrEmpty(zkPort)){
+                url = zkIp + ":" + zkPort;
+            }else {
+                List<String> localIps = NetUtil.getLocalIps();
+                for (String localIp:localIps){
+                    zkIp = ConfigLoader.getInstance().getProperty(localIp+".zkip");
+                    if(!Strings.isNullOrEmpty(zkIp)) {
+                        zkPort = ConfigLoader.getInstance().getProperty(localIp+".zkport");
+                        if (zkPort != null){
+                            url = zkIp + ":" + zkPort;
+                        }else{
+                            logger.error("zookeeper config not specified!");
+                            throw new RuntimeException("zookeeper config not specified!");
+                        }
+                        break;
                     }
-                    break;
                 }
             }
             zkClient = CuratorFrameworkFactory.newClient(url, new ExponentialBackoffRetry(1000, 3));

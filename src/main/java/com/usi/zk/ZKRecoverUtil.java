@@ -11,14 +11,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.Executors;
 
-/**
- * TODO 一句话描述该类用途
- * <p/>
- * 创建时间: 15/1/28 下午7:54<br/>
- *
- * @author qyang
- * @since v0.0.1
- */
+
 public class ZKRecoverUtil {
     public static final Logger logger = LoggerFactory.getLogger(ZKRecoverUtil.class);
 

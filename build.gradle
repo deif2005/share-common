@@ -19,7 +19,7 @@ ext {
 // 仓库地址
 // publishURL="http://196.10.149.149:8080/nexus/content/repositories/snapshots/"
  apiBaseJarName = "share-common"
- apiBaseJarVersion = '1.0.7'
+ apiBaseJarVersion = '1.1.1'
 
 // builtBy="gradle 1.9"
 }
