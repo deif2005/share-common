@@ -1,4 +1,0 @@
-Manifest-Version: 1.0.6
-Built-date: 2018-07-22 15:07:36
-packageName: share-common
-
