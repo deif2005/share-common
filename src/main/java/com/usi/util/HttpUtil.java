@@ -4,20 +4,25 @@ import com.usi.encrypt.MD5Utils;
 import net.sf.json.JSONObject;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.lang.StringUtils;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.*;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -227,6 +232,34 @@ public class HttpUtil {
             logger.error("post请求创壹平台失败:" + url, e);
         }
         return jsonResult;
+    }
+
+    public static String uploadFile(File file, String url) {
+        CloseableHttpClient client = HttpClients.createDefault();
+        HttpPost post = new HttpPost(url);
+        RequestConfig config = RequestConfig.custom().setSocketTimeout(30000).setConnectTimeout(20000).build();
+        post.setConfig(config);
+        FileBody fileBody = new FileBody(file, ContentType.DEFAULT_BINARY);
+        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+        builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+        // 相当于 <input type="file" class="file" name="file">,匹配@RequestParam("file")
+        // .addPart()可以设置模拟浏览器<input/>的表单提交
+        builder.addPart("file", fileBody);
+        HttpEntity entity = builder.build();
+        post.setEntity(entity);
+        String result = "";
+        try {
+            CloseableHttpResponse e = client.execute(post);
+            HttpEntity resEntity = e.getEntity();
+            if(entity != null) {
+                result = EntityUtils.toString(resEntity);
+//                System.out.println("response content:" + result);
+            }
+        } catch (IOException var10) {
+            logger.error("请求解析验证码io异常");
+            var10.printStackTrace();
+        }
+        return result;
     }
 
     public static void main(String[] args) throws Exception {
