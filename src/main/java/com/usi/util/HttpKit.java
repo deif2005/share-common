@@ -3,7 +3,7 @@
  * (c) 2012-2013 ____′↘夏悸 <wmails@126.cn>, MIT Licensed
  * http://www.jeasyuicn.com/wechat
  */
-package com.usi.util;
+package com.wd.util;
 
 
 import com.alibaba.fastjson.JSONObject;
@@ -29,7 +29,7 @@ import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
-//import com.usi.microschoolappsvr.domain.common.Attachment;
+//import com.wd.microschoolappsvr.domain.common.Attachment;
 
 /**
  * https 请求 微信为https的请求

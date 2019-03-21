@@ -1,4 +1,4 @@
-package com.usi.util;
+package com.wd.util;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;

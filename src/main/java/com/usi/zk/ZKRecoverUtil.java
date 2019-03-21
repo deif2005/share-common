@@ -1,7 +1,7 @@
-package com.usi.zk;
+package com.wd.zk;
 
 import com.google.common.io.Files;
-import com.usi.zk.util.NamedThreadFactory;
+import com.wd.zk.util.NamedThreadFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

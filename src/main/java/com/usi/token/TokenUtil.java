@@ -1,10 +1,10 @@
-package com.usi.token;
+package com.wd.token;
 
-import com.usi.componetutil.SpringUtil;
-import com.usi.redis.IRedisRepository;
-import com.usi.redis.RedisConstants;
-import com.usi.util.UUIDGenerator;
-import com.usi.util.VertifyCodeUtil;
+import com.wd.componetutil.SpringUtil;
+import com.wd.redis.IRedisRepository;
+import com.wd.redis.RedisConstants;
+import com.wd.util.UUIDGenerator;
+import com.wd.util.VertifyCodeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

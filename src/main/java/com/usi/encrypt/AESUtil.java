@@ -1,4 +1,4 @@
-package com.usi.encrypt;
+package com.wd.encrypt;
 
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;

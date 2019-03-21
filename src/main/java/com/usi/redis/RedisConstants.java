@@ -1,4 +1,4 @@
-package com.usi.redis;
+package com.wd.redis;
 
 /**
  * RedisConstants

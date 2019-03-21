@@ -1,4 +1,4 @@
-package com.usi.zk.util;
+package com.wd.zk.util;
 
 import com.google.common.base.Strings;
 import org.slf4j.Logger;
@@ -37,13 +37,14 @@ public class ConfigLoader {
         try {
             //获取系统参数
             String confFileName = System.getProperty(DEFAULT_CONFIG_FILE_KEY);
-//            System.out.println(Thread.currentThread().getContextClassLoader().getResource(".").getPath());
+            System.out.println(Thread.currentThread().getContextClassLoader().getResource(".").getPath());
             if(Strings.isNullOrEmpty(confFileName)) {//没有配置 从classloader获取
                 InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(APP_MAINCONF_FILE);
                 if(is == null){
                     is = Thread.currentThread().getContextClassLoader().getResourceAsStream(COMMON_MAINCONF_FILE);
                 }
-                properties.load(is);
+                if (null != is)
+                    properties.load(is);
             } else {
                 properties.load(new FileInputStream(new File(confFileName)));
             }

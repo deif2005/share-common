@@ -1,4 +1,4 @@
-package com.usi.zk.util;
+package com.wd.zk.util;
 
 import com.google.common.collect.Lists;
 import org.slf4j.Logger;

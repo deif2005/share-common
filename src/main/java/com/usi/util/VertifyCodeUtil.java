@@ -1,4 +1,4 @@
-package com.usi.util;
+package com.wd.util;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -207,7 +207,7 @@ public class VertifyCodeUtil {
     }
 
     public static void main(String[] a) throws Exception {
-        com.usi.util.VertifyCodeUtil vcUtil = new com.usi.util.VertifyCodeUtil(65, 22);
+        com.wd.util.VertifyCodeUtil vcUtil = new com.wd.util.VertifyCodeUtil(65, 22);
         BufferedImage image = vcUtil.drawVertifyCodeImage("9dea");
 
         FileOutputStream fos = new FileOutputStream(new File("/Users/xule/Downloads/a.jpg"));

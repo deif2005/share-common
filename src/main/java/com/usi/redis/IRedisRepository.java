@@ -1,4 +1,4 @@
-package com.usi.redis;
+package com.wd.redis;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;

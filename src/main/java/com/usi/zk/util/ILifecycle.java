@@ -1,4 +1,4 @@
-package com.usi.zk.util;
+package com.wd.zk.util;
 
 /**
  * 生命周期管理接口

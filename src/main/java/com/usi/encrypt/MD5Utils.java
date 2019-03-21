@@ -1,4 +1,4 @@
-package com.usi.encrypt;
+package com.wd.encrypt;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

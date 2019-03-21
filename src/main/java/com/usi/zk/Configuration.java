@@ -1,4 +1,4 @@
-package com.usi.zk;
+package com.wd.zk;
 
 
 import org.apache.curator.framework.recipes.cache.PathChildrenCacheEvent;
@@ -9,11 +9,6 @@ import java.util.Map;
 
 /**
  * 配置对象
- * <p/>
- * 创建时间: 14-8-5 下午11:09<br/>
- *
- * @author qyang
- * @since v0.0.1
  */
 public class Configuration implements Serializable{
     private static final long serialVersionUID = 5578228351252777377L;

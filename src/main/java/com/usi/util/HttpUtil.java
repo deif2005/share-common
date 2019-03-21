@@ -1,6 +1,6 @@
-package com.usi.util;
+package com.wd.util;
 
-import com.usi.encrypt.MD5Utils;
+import com.wd.encrypt.MD5Utils;
 import net.sf.json.JSONObject;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.lang.StringUtils;

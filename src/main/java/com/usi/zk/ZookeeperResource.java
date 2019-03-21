@@ -1,12 +1,12 @@
-package com.usi.zk;
+package com.wd.zk;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 
-import com.usi.encrypt.AESUtil;
-import com.usi.encrypt.EncryptUtil;
-import com.usi.zk.util.ConfigLoader;
-import com.usi.zk.util.NetUtil;
+import com.wd.encrypt.AESUtil;
+import com.wd.encrypt.EncryptUtil;
+import com.wd.zk.util.ConfigLoader;
+import com.wd.zk.util.NetUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -35,7 +35,7 @@ public class ZookeeperResource extends AbstractResource implements ApplicationCo
     public static String rootPath;
     public static String START_PATH = "/%s/start-configs";
     public static String DEVICE_PLATFORM_PATH = "/%s/deviceplatform";
-//    public static String STATIC_CONIFG = "%s/static_config";
+    public static String STATIC_CONFIG = "/%s/static_config";
 
     /**
      * 多产品线支持 2015-08-19 add
@@ -60,6 +60,7 @@ public class ZookeeperResource extends AbstractResource implements ApplicationCo
                 rootPath = rootStr;
                 path = String.format(rootNode,projectName);
                 START_PATH = String.format(START_PATH,rootStr);
+                STATIC_CONFIG = String.format(STATIC_CONFIG,rootStr);
                 DEVICE_PLATFORM_PATH = String.format(DEVICE_PLATFORM_PATH,rootStr);
             }else {
                 List<String> localIps = NetUtil.getLocalIps();
@@ -70,6 +71,7 @@ public class ZookeeperResource extends AbstractResource implements ApplicationCo
                         rootPath = rootStr;
                         path = String.format(rootNode,projectName);
                         START_PATH = String.format(START_PATH,rootStr);
+                        STATIC_CONFIG = String.format(STATIC_CONFIG,rootStr);
                         DEVICE_PLATFORM_PATH = String.format(DEVICE_PLATFORM_PATH,rootStr);
                         break;
                     }
@@ -153,10 +155,8 @@ public class ZookeeperResource extends AbstractResource implements ApplicationCo
             }
 
         }
-
         // 备份cmc配置到本地
         ZKRecoverUtil.doRecover(data, path, recoverDataCache);
-
         log.debug("init get startconfig data {}", new String(data));
         if (EncryptUtil.isEncrypt(data)) {
             byte[] pureData = new byte[data.length - 2];
@@ -173,7 +173,6 @@ public class ZookeeperResource extends AbstractResource implements ApplicationCo
             return new ByteArrayInputStream(data);
         }
     }
-
 
     @Override
     public void setApplicationContext(ApplicationContext ctx) throws BeansException {
@@ -194,6 +193,4 @@ public class ZookeeperResource extends AbstractResource implements ApplicationCo
 //            }
 //        }
     }
-
-
 }

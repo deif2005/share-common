@@ -1,4 +1,4 @@
-package com.usi.zk;
+package com.wd.zk;
 
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.KeeperException;

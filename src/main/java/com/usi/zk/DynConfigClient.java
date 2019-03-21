@@ -1,8 +1,8 @@
-package com.usi.zk;
+package com.wd.zk;
 
 
 import com.google.common.collect.Maps;
-import com.usi.zk.context.CloudContextFactory;
+import com.wd.zk.context.CloudContextFactory;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.api.UnhandledErrorListener;
 import org.apache.curator.framework.recipes.cache.*;
@@ -13,15 +13,12 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * 动态配置中心客户端
  * 获取动态配置信息主动从zk获取，但考虑到zk server故障时的处理 需要本地存储容灾（zk client是否已经实现了该功能）
- * <p/>
- * 创建时间: 14-8-5 下午9:00<br/>
- *
- * @author qyang
- * @since v0.0.1
  */
 public class DynConfigClient {
     public static final Logger logger = LoggerFactory.getLogger(DynConfigClient.class);
@@ -86,7 +83,6 @@ public class DynConfigClient {
      */
     public String getConfig(String appName, String group, String dataId) throws Exception {
         String path = String.format(PATH_FORMAT, appName, group, dataId);
-
         return getConfig(path);
     }
 
@@ -106,7 +102,6 @@ public class DynConfigClient {
         } else {
             path = String.format(CLOUD_PATH_FORMAT, productCode, appName, group, dataId);
         }
-
         return getConfig(path);
     }
 
@@ -173,7 +168,6 @@ public class DynConfigClient {
      */
     public void registerListeners(final String appName, final String group, final String dataId, final IChangeListener listener) {
         String path = String.format(PATH_FORMAT, appName, group, dataId);
-
         doRegisterListeners(null, appName, path, group, dataId, listener);
     }
 
@@ -184,7 +178,6 @@ public class DynConfigClient {
         } else {
             path = String.format(CLOUD_PATH_FORMAT, productCode, appName, group, dataId);
         }
-
         doRegisterListeners(productCode, appName, path, group, dataId, listener);
     }
 
@@ -198,34 +191,51 @@ public class DynConfigClient {
     }
 
     /**
-     * 注册 集群发现path的监听器      目前仅用于 集群发现
+     * 注册集群发现path的监听器
+     * 目前仅用于集群发现
      * @param path
      * @param listener
      */
-    public void registerListeners(final String path, final IChangeListener listener) {
+//    public void registerListeners(final String path, final IChangeListener listener) {
+//        CuratorFramework client = zkIp == null ? ZKClient.getClient() : ZKClientManager.getClient(zkIp);
+//        //使用Curator的NodeCache来做ZNode的监听，不用我们自己实现重复监听
+//        if(pathChildrenCacheMap.get(path) == null) {
+//            final PathChildrenCache cache = new PathChildrenCache(client, path, true);
+//            pathChildrenCacheMap.putIfAbsent(path, cache);
+//            cache.getListenable().addListener(new PathChildrenCacheListener() {
+//                @Override
+//                public void childEvent(CuratorFramework client, PathChildrenCacheEvent event) throws Exception {
+//                    List<String> nodes = getNodes("/servers");
+//                    Configuration configuration = new Configuration();
+//                    configuration.setPathChildrenCacheEvent(event);
+//                    configuration.setNodes(nodes);
+//                    listener.receiveConfigInfo(configuration);
+//                }
+//            });
+//            try {
+//                cache.start(PathChildrenCache.StartMode.BUILD_INITIAL_CACHE);
+//            } catch (Exception e) {
+//                logger.error("Start NodeCache error for path: {}, error info: {}", path, e.getMessage());
+//            }
+//        }
+//    }
+
+    public void registerListeners(final String path, final IChangeListener listener) throws Exception{
         CuratorFramework client = zkIp == null ? ZKClient.getClient() : ZKClientManager.getClient(zkIp);
-
-        //使用Curator的NodeCache来做ZNode的监听，不用我们自己实现重复监听
-        if(pathChildrenCacheMap.get(path) == null) {
-            final PathChildrenCache cache = new PathChildrenCache(client, path, true);
-            pathChildrenCacheMap.putIfAbsent(path, cache);
-            cache.getListenable().addListener(new PathChildrenCacheListener() {
-                @Override
-                public void childEvent(CuratorFramework client, PathChildrenCacheEvent event) throws Exception {
-                    List<String> nodes = getNodes("/servers");
-                    Configuration configuration = new Configuration();
-                    configuration.setPathChildrenCacheEvent(event);
-                    configuration.setNodes(nodes);
-
-                    listener.receiveConfigInfo(configuration);
-                }
-            });
-            try {
-                cache.start(PathChildrenCache.StartMode.BUILD_INITIAL_CACHE);
-            } catch (Exception e) {
-                logger.error("Start NodeCache error for path: {}, error info: {}", path, e.getMessage());
+        PathChildrenCache childrenCache = new PathChildrenCache(client, path, true);
+        PathChildrenCacheListener childrenCacheListener = new PathChildrenCacheListener() {
+            @Override
+            public void childEvent(CuratorFramework client, PathChildrenCacheEvent event) throws Exception {
+                List<String> nodes = getNodes(path);
+                Configuration configuration = new Configuration();
+                configuration.setPathChildrenCacheEvent(event);
+                configuration.setNodes(nodes);
+                listener.receiveConfigInfo(configuration);
             }
-        }
+        };
+        childrenCache.getListenable().addListener(childrenCacheListener);
+        logger.info("Register zk watcher successfully,path:{}",path);
+        childrenCache.start(PathChildrenCache.StartMode.POST_INITIALIZED_EVENT);
     }
 
     private final void doRegisterListeners(final String productCode, final String appName, final String path, final String group,
@@ -288,17 +298,11 @@ public class DynConfigClient {
             public void stateChanged(CuratorFramework client, ConnectionState newState) {
                 logger.info("CuratorFramework state changed: {}", newState);
                 if(newState == ConnectionState.CONNECTED || newState == ConnectionState.RECONNECTED){
-
-
-
-
-//                    for(IChangeListener listener : listeners){
-//                        //获取key 执行对应的listener
-//
-//
+                    for(IChangeListener listener : listeners){
+                        //获取key 执行对应的listener
 //                        listener.receiveConfigInfo().executor(client);
-//                        logger.info("Listener {} executed!", listener.getClass().getName());
-//                    }
+                        logger.info("Listener {} executed!", listener.getClass().getName());
+                    }
                 }
             }
         });

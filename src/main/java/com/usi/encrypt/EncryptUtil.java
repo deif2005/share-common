@@ -1,4 +1,4 @@
-package com.usi.encrypt;
+package com.wd.encrypt;
 
 
 import javax.crypto.Cipher;

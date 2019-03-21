@@ -1,4 +1,4 @@
-package com.usi.encrypt;
+package com.wd.encrypt;
 
 import com.ning.http.util.Base64;
 

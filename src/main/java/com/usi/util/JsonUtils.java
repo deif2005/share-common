@@ -1,4 +1,4 @@
-package com.usi.util;
+package com.wd.util;
 
 import com.google.gson.*;
 import net.sf.json.JSON;

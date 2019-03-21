@@ -1,4 +1,4 @@
-package com.usi.zk.util;
+package com.wd.zk.util;
 
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;

@@ -1,4 +1,4 @@
-package com.usi.componetutil;
+package com.wd.componetutil;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

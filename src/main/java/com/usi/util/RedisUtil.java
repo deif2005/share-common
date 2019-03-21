@@ -1,4 +1,4 @@
-package com.usi.util;
+package com.wd.util;
 
 import redis.clients.jedis.*;
 

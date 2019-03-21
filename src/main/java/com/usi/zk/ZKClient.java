@@ -1,9 +1,7 @@
-package com.usi.zk;
+package com.wd.zk;
 
 import com.google.common.base.Strings;
-import com.usi.zk.util.AbstractLifecycle;
-import com.usi.zk.util.ConfigLoader;
-import com.usi.zk.util.NetUtil;
+import com.wd.zk.util.AbstractLifecycle;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
@@ -54,7 +52,8 @@ public class ZKClient extends AbstractLifecycle {
                     }
                 }
             }
-            zkClient = CuratorFrameworkFactory.newClient(url, new ExponentialBackoffRetry(1000, 3));
+            zkClient = CuratorFrameworkFactory.newClient(url, new ExponentialBackoffRetry(1000,
+                    3));
             zkClient.start();
             logger.warn("ZKClient start success!");
         } catch (Exception e) {
@@ -71,7 +70,7 @@ public class ZKClient extends AbstractLifecycle {
     public static CuratorFramework create(String ip){
         logger.warn(" start conn zk server {} ", ip);
         String url="";
-        CuratorFramework newClient = null;
+        CuratorFramework newClient;
         synchronized (ip){
             String port = ConfigLoader.getInstance().getProperty("zk.port");
             if (port != null && !"".equals(port)){
@@ -79,12 +78,12 @@ public class ZKClient extends AbstractLifecycle {
             }else{
                 url = ip + ":" + "2181";
             }
-            newClient = CuratorFrameworkFactory.newClient(url, new ExponentialBackoffRetry(1000, 3));
+            newClient = CuratorFrameworkFactory.newClient(url, new ExponentialBackoffRetry(1000,
+                    3));
             //innerRegisterListeners(zkClient);
             newClient.start();
         }
-
-        logger.warn("  conn zk server {} success!", ip);
+        logger.warn("conn zk server {} success!", ip);
         return newClient;
     }
 

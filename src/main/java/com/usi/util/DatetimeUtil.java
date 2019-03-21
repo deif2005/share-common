@@ -1,4 +1,4 @@
-package com.usi.util;
+package com.wd.util;
 
 import org.springframework.util.StringUtils;
 import org.apache.commons.httpclient.util.DateUtil;

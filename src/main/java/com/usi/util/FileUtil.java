@@ -1,6 +1,6 @@
-package com.usi.util;
+package com.wd.util;
 
-import com.usi.encrypt.EncryptUtil;
+import com.wd.encrypt.EncryptUtil;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;

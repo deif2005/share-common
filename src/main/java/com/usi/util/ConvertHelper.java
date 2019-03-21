@@ -1,4 +1,4 @@
-package com.usi.util;
+package com.wd.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

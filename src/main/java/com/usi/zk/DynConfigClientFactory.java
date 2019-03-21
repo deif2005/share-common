@@ -1,4 +1,4 @@
-package com.usi.zk;
+package com.wd.zk;
 
 import com.google.common.collect.Maps;
 
@@ -6,11 +6,6 @@ import java.util.concurrent.ConcurrentMap;
 
 /**
  * DynConfigClient 工厂类
- * <p/>
- * 创建时间: 14-8-8 下午3:45<br/>
- *
- * @author qyang
- * @since v0.0.1
  */
 public class DynConfigClientFactory {
     private static class DynConfigClientHolder{
@@ -37,7 +32,6 @@ public class DynConfigClientFactory {
                 client.init(true);
                 dynConfigClientMap.put(zkIp, client);
             }
-
             return dynConfigClientMap.get(zkIp);
         }
     }
